@@ -111,6 +111,17 @@ jobs:
     needs: [build]
     environment: ec2-secrets
     steps:
+      - uses: actions/checkout@v4
+
+      - name: Copiar docker-compose.prod.yml a EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "docker-compose.prod.yml"
+          target: "~/app"
+
       - name: Deploy vía SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -120,7 +131,7 @@ jobs:
           script: |
             echo "🔄 Pulling latest images..."
             cd ~/app
-            docker compose pull
-            docker compose up -d --remove-orphans
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
             docker image prune -f
             echo "✅ Deploy completado — $(date)"
