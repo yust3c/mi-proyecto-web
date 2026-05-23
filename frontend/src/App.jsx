@@ -1,31 +1,31 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 const EXAMPLE_PROMPT =
-  "Explica brevemente qué aporta Docker Compose en una práctica de despliegue.";
+  'Explica brevemente qué aporta Docker Compose en una práctica de despliegue.';
 
 export default function App() {
-  const [prompt, setPrompt] = useState("");
-  const [response, setResponse] = useState("");
-  const [error, setError] = useState("");
+  const [prompt, setPrompt] = useState('');
+  const [response, setResponse] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
 
     if (!prompt.trim()) {
-      setError("Introduce un prompt antes de enviar la petición.");
+      setError('Introduce un prompt antes de enviar la petición.');
       return;
     }
 
     setLoading(true);
-    setError("");
-    setResponse("");
+    setError('');
+    setResponse('');
 
     try {
-      const apiResponse = await fetch("/api/chat", {
-        method: "POST",
+      const apiResponse = await fetch('/api/chat', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ prompt })
       });
@@ -33,22 +33,22 @@ export default function App() {
       const data = await apiResponse.json();
 
       if (!apiResponse.ok) {
-        throw new Error(data.detail || "No se pudo obtener respuesta del backend.");
+        throw new Error(data.detail || 'No se pudo obtener respuesta del backend.');
       }
 
-      setResponse(data.response || "El modelo no devolvió texto.");
+      setResponse(data.response || 'El modelo no devolvió texto.');
     } catch (requestError) {
-      setError(requestError.message || "Se produjo un error inesperado.");
+      setError(requestError.message || 'Se produjo un error inesperado.');
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <main className="page-shell">
-      <section className="hero-card">
-        <div className="hero-copy">
-          <span className="eyebrow">Docker + FastAPI + Ollama + Nginx</span>
+    <main className='page-shell'>
+      <section className='hero-card'>
+        <div className='hero-copy'>
+          <span className='eyebrow'>Docker + FastAPI + Ollama + Nginx</span>
           <h1>Chat IA local desplegado con contenedores</h1>
           <p>
             Demostración sencilla para una práctica académica de despliegue con
@@ -56,7 +56,7 @@ export default function App() {
           </p>
         </div>
 
-        <div className="info-panel">
+        <div className='info-panel'>
           <h2>Arquitectura</h2>
           <ul>
             <li>Frontend React con formulario simple.</li>
@@ -67,25 +67,25 @@ export default function App() {
         </div>
       </section>
 
-      <section className="chat-layout">
-        <form className="chat-form" onSubmit={handleSubmit}>
-          <label htmlFor="prompt">Prompt</label>
+      <section className='chat-layout'>
+        <form className='chat-form' onSubmit={handleSubmit}>
+          <label htmlFor='prompt'>Prompt</label>
           <textarea
-            id="prompt"
-            name="prompt"
-            rows="8"
+            id='prompt'
+            name='prompt'
+            rows='8'
             placeholder={EXAMPLE_PROMPT}
             value={prompt}
             onChange={(event) => setPrompt(event.target.value)}
           />
 
-          <div className="actions">
-            <button type="submit" disabled={loading}>
-              {loading ? "Consultando..." : "Enviar al modelo"}
+          <div className='actions'>
+            <button type='submit' disabled={loading}>
+              {loading ? 'Consultando...' : 'Enviar al modelo'}
             </button>
             <button
-              type="button"
-              className="secondary"
+              type='button'
+              className='secondary'
               onClick={() => setPrompt(EXAMPLE_PROMPT)}
               disabled={loading}
             >
@@ -94,21 +94,21 @@ export default function App() {
           </div>
         </form>
 
-        <article className="response-card">
-          <div className="response-header">
+        <article className='response-card'>
+          <div className='response-header'>
             <h2>Respuesta</h2>
-            <span className={loading ? "status pending" : "status ready"}>
-              {loading ? "Procesando" : "Listo"}
+            <span className={loading ? 'status pending' : 'status ready'}>
+              {loading ? 'Procesando' : 'Listo'}
             </span>
           </div>
 
-          {error ? <p className="message error">{error}</p> : null}
+          {error ? <p className='message error'>{error}</p> : null}
           {!error && !response ? (
-            <p className="message empty">
+            <p className='message empty'>
               La respuesta del modelo aparecerá aquí en cuanto envíes un prompt.
             </p>
           ) : null}
-          {response ? <pre className="response-text">{response}</pre> : null}
+          {response ? <pre className='response-text'>{response}</pre> : null}
         </article>
       </section>
     </main>
