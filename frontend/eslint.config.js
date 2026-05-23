@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import pluginReact from 'eslint-plugin-react';
 import babelParser from '@babel/eslint-parser';
+import globals from 'globals';
 
 export default [
   js.configs.recommended,
@@ -16,6 +17,9 @@ export default [
         babelOptions: {
           presets: ['@babel/preset-react'],
         },
+      },
+      globals: {
+        ...globals.browser,
       },
     },
     settings: {
