@@ -1,13 +1,13 @@
 services:
   frontend:
-    image: ghcr.io/${GHCR_NAMESPACE:-tu-usuario-github}/ollama-chat-frontend:${IMAGE_TAG:-latest}
+    image: ghcr.io/yust3c/mi-proyecto-web/frontend:latest
     container_name: ollama-frontend
     restart: unless-stopped
     networks:
       - ollama_net
 
   backend:
-    image: ghcr.io/${GHCR_NAMESPACE:-tu-usuario-github}/ollama-chat-backend:${IMAGE_TAG:-latest}
+    image: ghcr.io/yust3c/mi-proyecto-web/backend:latest
     container_name: ollama-backend
     restart: unless-stopped
     environment:
